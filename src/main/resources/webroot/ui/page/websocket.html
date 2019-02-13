@@ -1,0 +1,503 @@
+<style type="text/css">
+    .box-cover {
+        border-radius: 2px;
+        background: #232429;
+        border-top: 0px solid #d2d6de !important;
+        margin-top: 10px;
+    }
+    
+    .box-header-cover {
+        color: #929299;
+    }
+    
+    .box-header-cover h3 {
+        font-weight: 400;
+    }
+    
+    .wss-f-row {
+        margin-top: 10px;
+    }
+    
+    .wss-s-row {
+        margin-top: 15px;
+    }
+    
+    .wss-ctrl-col {
+        width: 10%;
+    }
+    
+    .wss-ctrl-col-2 {
+        width: 24%;
+    }
+    
+    input.labelauty+label {
+        display: inline-table !important;
+        background-color: #232429;
+        color: #232429;
+        border: 1px solid #929299;
+    }
+    
+    input.labelauty:not(:checked):not([disabled])+label:hover {
+        background-color: #232429;
+        color: #232429;
+    }
+    
+    input.labelauty+label>span.labelauty-unchecked-image {
+        background-image: none !important;
+    }
+    
+    .connect-status-col {
+        padding-top: 6px;
+    }
+    
+    .status-disconn {
+        color: #dd4b39;
+    }
+    
+    .status-conn {
+        color: #00a65a;
+    }
+    
+    .wss-pub-btn-col {
+        padding-top: 27px;
+    }
+    
+    #wss-pub-btn {
+        width: 34%;
+        display: inline-table;
+        margin-left: 15px;
+    }
+    
+    .msg-refresh a {
+        cursor: pointer;
+        color: #00c0ef !important;
+    }
+    
+    .msg-refresh>a:hover {
+        background-color: #1d1e24 !important;
+        color: #00acd6 !important;
+    }
+</style>
+
+<section class="content-header">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h1 class="content-wrapper-title content-wrapper-title-cover">
+                Websocket
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="box box-default box-cover">
+                <div class="box-header with-border box-header-cover">
+                    <h3 class="box-title">连接</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="connect-host">主机地址</label>
+                                <input type="text" class="form-control" id="wss-conn-host">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="connect-port">端口</label>
+                                <input type="text" class="form-control" id="wss-conn-port">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="connect-clientid">客户端ID</label>
+                                <input type="text" class="form-control" id="wss-conn-clientid">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="connect-username">用户名</label>
+                                <input type="text" class="form-control" id="wss-conn-username">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="connect-password">密码</label>
+                                <input type="password" class="form-control" id="wss-conn-password">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="connect-heartbeat">心跳(秒)</label>
+                                <input type="text" class="form-control" id="wss-heartbeat">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row wss-f-row">
+                        <div class="col-md-1 col-sm-1 col-xs-2 wss-ctrl-col">
+                            <input type="checkbox" id="wss-clean-session">
+                            <span>清除会话</span>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-2 wss-ctrl-col">
+                            <input type="checkbox" id="wss-ssl">
+                            <span>SSL</span>
+                        </div>
+                    </div>
+                    <div class="row wss-s-row">
+                        <div class="col-md-1 col-sm-1 col-xs-2 wss-ctrl-col">
+                            <button type="button" class="btn btn-block btn-info btn-sm" id="wss-conn-btn">
+                                <i class="fa fa-fw fa-check"></i>
+                                <span>连接</span>
+                            </button>
+                        </div>
+                        <div class="col-md-1 col-sm-1 col-xs-2 wss-ctrl-col">
+                            <button type="button" class="btn btn-block btn-info btn-sm" id="wss-disconn-btn" disabled>
+                                <i class="fa fa-fw fa-close"></i>
+                                <span>断开</span>
+                            </button>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-8 connect-status-col">
+                            当前状态：
+                            <span class="status-disconn" id="wss-conn-status">未连接</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="box box-default box-cover">
+                <div class="box-header with-border box-header-cover">
+                    <h3 class="box-title">订阅</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="wss-sub-topic">主题</label>
+                                        <input type="text" class="form-control" id="wss-sub-topic">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="wss-sub-qos">服务质量</label>
+                                        <select class="select2" id="wss-sub-qos">
+                                            <option value="0" selected="selected">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row wss-f-row">
+                                <div class="col-md-1 col-sm-1 col-xs-2 wss-ctrl-col-2">
+                                    <button type="button" class="btn btn-block btn-info btn-sm" id="wss-sub-btn">
+                                        <i class="fa fa-fw fa-check"></i>
+                                        <span>订阅</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <span>订阅列表</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-cols">
+                                    <table class="table table-bordered table-striped table-hover" id="wss-sub-table">
+                                        <thead>
+                                            <tr>
+                                                <th>主题</th>
+                                                <th>服务质量</th>
+                                                <th>时间</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-xs wss-unsub-btn">
+                                                        <i class="fa fa-fw fa-close"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-xs wss-unsub-btn">
+                                                        <i class="fa fa-fw fa-close"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-xs wss-unsub-btn">
+                                                        <i class="fa fa-fw fa-close"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-xs wss-unsub-btn">
+                                                        <i class="fa fa-fw fa-close"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-info btn-xs wss-unsub-btn">
+                                                        <i class="fa fa-fw fa-close"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row last-info-row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="box box-default box-cover">
+                <div class="box-header with-border box-header-cover">
+                    <h3 class="box-title">消息</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="wss-pub-topic">主题</label>
+                                <input type="text" class="form-control" id="wss-pub-topic">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="wss-pub-msg">消息</label>
+                                <input type="text" class="form-control" id="wss-pub-msg">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="wss-pub-qos">服务质量</label>
+                                <select class="select2" id="wss-pub-qos">
+                                    <option value="0" selected="selected">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12 wss-pub-btn-col">
+                            <input type="checkbox" id="wss-msg-retain">
+                            <span>保留</span>
+                            <button type="button" class="btn btn-block btn-info btn-sm" id="wss-pub-btn">
+                                <i class="fa fa-fw fa-check"></i>
+                                <span>发送</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <span>发布消息列表</span>
+                                    <span class="msg-refresh">
+                                        <a id="wss-pubmsg-refresh">
+                                            <i class="fa fa-fw fa-refresh"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-cols">
+                                    <table class="table table-bordered table-striped table-hover" id="wss-pubmsg-table">
+                                        <thead>
+                                            <tr>
+                                                <th>消息</th>
+                                                <th>主题</th>
+                                                <th>服务质量</th>
+                                                <th>时间</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <span>订阅消息列表</span>
+                                    <span class="msg-refresh">
+                                        <a id="wss-submsg-refresh">
+                                            <i class="fa fa-fw fa-refresh"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-cols">
+                                    <table class="table table-bordered table-striped table-hover" id="wss-submsg-table">
+                                        <thead>
+                                            <tr>
+                                                <th>消息</th>
+                                                <th>主题</th>
+                                                <th>服务质量</th>
+                                                <th>时间</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>test message</td>
+                                                <td>/hello/world</td>
+                                                <td>0</td>
+                                                <td>2018-09-14 12:00:00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $('#wss-clean-session').labelauty({
+        label: false
+    });
+
+    $('#wss-ssl').labelauty({
+        label: false
+    });
+
+    $('#wss-msg-retain').labelauty({
+        label: false
+    });
+
+    $('#wss-sub-qos').select2({
+        minimumResultsForSearch: -1,
+        language: 'zh-CN',
+        width: '100%'
+    });
+
+    $('#wss-pub-qos').select2({
+        minimumResultsForSearch: -1,
+        language: 'zh-CN',
+        width: '100%'
+    });
+
+    $('#wss-sub-table').DataTable({
+        'searching': false,
+        'lengthChange': false,
+        'ordering': false,
+        'info': false,
+        'paging': false,
+        'autoWidth': true
+    });
+
+    $('#wss-pubmsg-table').DataTable({
+        'searching': false,
+        'lengthChange': false,
+        'ordering': false,
+        'info': false,
+        'paging': false,
+        'autoWidth': true
+    });
+
+    $('#wss-submsg-table').DataTable({
+        'searching': false,
+        'lengthChange': false,
+        'ordering': false,
+        'info': false,
+        'paging': false,
+        'autoWidth': true
+    });
+</script>

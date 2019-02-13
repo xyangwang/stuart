@@ -1,0 +1,27 @@
+.logo-sub {
+    color: #fff;
+    bottom: 1.2em;
+    margin-left: -5px;
+    font-size: 15px;
+}
+
+.form-control:focus {
+    border-color: #00c0ef !important;
+    box-shadow: none !important;
+}
+
+input.labelauty+label {
+    display: inline-table !important;
+    background-color: #fff;
+    color: #fff;
+    border: 1px solid #00c0ef;
+}
+
+input.labelauty:not(:checked):not([disabled])+label:hover {
+    background-color: #fff;
+    color: #fff;
+}
+
+input.labelauty+label>span.labelauty-unchecked-image {
+    background-image: none !important;
+}
