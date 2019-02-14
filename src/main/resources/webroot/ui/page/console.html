@@ -439,61 +439,101 @@
         'targets': 1,
         'data': 'connCount',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 2,
         'data': 'connMax',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 3,
         'data': 'topicCount',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 4,
         'data': 'topicMax',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 5,
         'data': 'retainCount',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 6,
         'data': 'retainMax',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 7,
         'data': 'sessCount',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 8,
         'data': 'sessMax',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 9,
         'data': 'subCount',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }, {
         'targets': 10,
         'data': 'subMax',
         'render': function(data, type, full) {
-            return data;
+            if (data) {
+                return data;
+            } else {
+                return 0;
+            }
         }
     }];
 
@@ -622,11 +662,9 @@
             data: JSON.stringify({}),
             success: function(res) {
                 if (res && res.code === 1 && res.result) {
-                    var result = res.result;
-
-                    $('#console-sys-version').text(result.version);
-                    $('#console-sys-uptime').text(result.uptime);
-                    $('#console-sys-time').text(result.systime);
+                    $('#console-sys-version').text(res.result.version);
+                    $('#console-sys-uptime').text(res.result.uptime);
+                    $('#console-sys-time').text(res.result.systime);
                 }
             },
             error: function(xhr, status, error) {
@@ -718,19 +756,30 @@
             data: JSON.stringify({}),
             success: function(res) {
                 if (res && res.code === 1 && res.result) {
+                    // get result
                     var result = res.result;
+
+                    // set mqtt packet received count
                     result.packetReceived = result.packetConnect + result.packetDisconnect + result.packetPingreq + result.packetPublishReceived +
                         result.packetPubackReceived + result.packetPubcompReceived + result.packetPubrecReceived + result.packetPubrelReceived +
                         result.packetSubscribe + result.packetUnsubscribe;
+
+                    // set mqtt packet sent count
                     result.packetSent = result.packetConnack + result.packetPingresp + result.packetPublishSent +
                         result.packetPubackSent + result.packetPubcompSent + result.packetPubrecSent + result.packetPubrelSent +
                         result.packetSuback + result.packetUnsuback;
+
+                    // set message received count
                     result.messageReceived = result.messageQos0Received + result.messageQos1Received + result.messageQos2Received;
+
+                    // set message sent count
                     result.messageSent = result.messageQos0Sent + result.messageQos1Sent + result.messageQos2Sent;
 
                     for (var key in result) {
                         $('.' + key).text(result[key]);
                     }
+                } else {
+                    $('.metrics-value').text(0);
                 }
             },
             error: function(xhr, status, error) {

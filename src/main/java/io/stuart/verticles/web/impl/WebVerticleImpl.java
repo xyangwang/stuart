@@ -396,8 +396,6 @@ public class WebVerticleImpl extends AbstractVerticle implements WebVerticle {
     @Override
     public void getSystemInfo(RoutingContext rc) {
         try {
-            MqttSystemInfo systemInfo = null;
-
             // get node id
             UUID nodeId = getRequestNodeId(rc);
 
@@ -406,9 +404,12 @@ public class WebVerticleImpl extends AbstractVerticle implements WebVerticle {
             // set code
             json.put(HttpConst.CODE, HttpConst.PROCESSED_CODE);
 
-            if (nodeId == null || cacheService.localNodeId().equals(nodeId)) {
-                systemInfo = new MqttSystemInfo();
+            // system information
+            MqttSystemInfo systemInfo = null;
 
+            if (nodeId == null || cacheService.localNodeId().equals(nodeId)) {
+                // initialize local system information
+                systemInfo = new MqttSystemInfo();
                 // set version
                 systemInfo.setVersion(Starter.class.getPackage().getImplementationVersion());
                 // set uptime
@@ -416,11 +417,19 @@ public class WebVerticleImpl extends AbstractVerticle implements WebVerticle {
                 // set system time
                 systemInfo.setSystime(SysUtil.getSystime());
             } else {
-                systemInfo = remoteSystemInfo(nodeId);
+                // get node
+                MqttNode node = cacheService.getNode(nodeId);
+
+                if (node != null && Status.Running.value() == node.getStatus()) {
+                    // get remote system information
+                    systemInfo = remoteSystemInfo(nodeId);
+                }
             }
 
-            // set node information
-            json.put(HttpConst.RESULT, JsonObject.mapFrom(systemInfo));
+            if (systemInfo != null) {
+                // set node information
+                json.put(HttpConst.RESULT, JsonObject.mapFrom(systemInfo));
+            }
 
             writeJsonResponse(rc, json);
         } catch (DecodeException e) {
@@ -455,7 +464,6 @@ public class WebVerticleImpl extends AbstractVerticle implements WebVerticle {
         long retainMax = MetricsService.i().getRetainMax();
 
         nodes.forEach(node -> {
-            NodeMetrics nodeMetrics = null;
             // initialize node json
             JsonObject nodeJson = JsonObject.mapFrom(node);
             // set retain message count
@@ -463,9 +471,12 @@ public class WebVerticleImpl extends AbstractVerticle implements WebVerticle {
             // set retain message max
             nodeJson.put("retainMax", retainMax);
 
+            // node metrics
+            NodeMetrics nodeMetrics = null;
+
             if (cacheService.localNodeId().equals(node.getNodeId())) {
                 nodeMetrics = NodeMetrics.getInstance();
-            } else {
+            } else if (Status.Running.value() == node.getStatus()) {
                 nodeMetrics = remoteNodeMetrics(node.getNodeId());
             }
 
@@ -497,23 +508,29 @@ public class WebVerticleImpl extends AbstractVerticle implements WebVerticle {
 
         // get mqtt metrics json
         JsonObject result = null;
+        // mqtt metrics
+        MqttMetrics remoteMqttMetrics = null;
 
         if (nodeId == null || cacheService.localNodeId().equals(nodeId)) {
             // get local mqtt metrics
-            result = JsonObject.mapFrom(MqttMetrics.getInstance());
+            remoteMqttMetrics = MqttMetrics.getInstance();
         } else {
-            // get remote mqtt metrics
-            MqttMetrics remoteMqttMetrics = remoteMqttMetrics(nodeId);
+            // get node
+            MqttNode node = cacheService.getNode(nodeId);
 
-            if (remoteMqttMetrics != null) {
-                result = JsonObject.mapFrom(remoteMqttMetrics);
-            } else {
-                result = null;
+            if (node != null && Status.Running.value() == node.getStatus()) {
+                // get remote mqtt metrics
+                remoteMqttMetrics = remoteMqttMetrics(nodeId);
             }
         }
 
-        // put retain message count
-        result.put("messageRetained", MetricsService.i().getRetainCount());
+        if (remoteMqttMetrics != null) {
+            // convert to json object
+            result = JsonObject.mapFrom(remoteMqttMetrics);
+            // put retain message count
+            result.put("messageRetained", MetricsService.i().getRetainCount());
+        }
+
         // set node information
         json.put(HttpConst.RESULT, result);
 

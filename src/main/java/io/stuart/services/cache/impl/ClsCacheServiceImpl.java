@@ -8,6 +8,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 
 import org.apache.ignite.IgniteCompute;
+import org.apache.ignite.IgniteException;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.cluster.BaselineNode;
 import org.apache.ignite.cluster.ClusterGroup;
@@ -222,11 +223,15 @@ public class ClsCacheServiceImpl extends AbstractCacheService {
             // get ignite compute
             IgniteCompute compute = ignite.compute(group);
 
-            // return compute result
-            return compute.call(job);
-        } else {
-            return null;
+            try {
+                // return compute result
+                return compute.call(job);
+            } catch (IgniteException e) {
+                Logger.log().debug("call ignite job on node({}) has an exception: {}", nodeId, e.getMessage());
+            }
         }
+
+        return null;
     }
 
     @Override
@@ -243,11 +248,15 @@ public class ClsCacheServiceImpl extends AbstractCacheService {
             // get ignite compute
             IgniteCompute compute = ignite.compute(group);
 
-            // return compute result
-            return compute.apply(job, arg);
-        } else {
-            return null;
+            try {
+                // return compute result
+                return compute.apply(job, arg);
+            } catch (IgniteException e) {
+                Logger.log().debug("apply ignite closure on node({}) has an exception: {}", nodeId, e.getMessage());
+            }
         }
+
+        return null;
     }
 
     @Override
