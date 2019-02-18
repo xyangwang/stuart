@@ -1,9 +1,12 @@
 package io.stuart.utils;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import io.stuart.cli.StuartCLI;
 import io.stuart.consts.CmdConst;
+import io.stuart.consts.ParamConst;
 import io.vertx.core.cli.CLI;
 import io.vertx.core.cli.CLIException;
 import io.vertx.core.cli.CommandLine;
@@ -11,8 +14,27 @@ import io.vertx.core.cli.Option;
 
 public class CmdUtil {
 
+    private static final Set<String> LEVELS = new HashSet<>();
+
+    private static final Set<String> MODES = new HashSet<>();
+
+    static {
+        LEVELS.add(ParamConst.LOG_LEVEL_ALL.toLowerCase());
+        LEVELS.add(ParamConst.LOG_LEVEL_DEBUG.toLowerCase());
+        LEVELS.add(ParamConst.LOG_LEVEL_ERROR.toLowerCase());
+        LEVELS.add(ParamConst.LOG_LEVEL_FATAL.toLowerCase());
+        LEVELS.add(ParamConst.LOG_LEVEL_INFO.toLowerCase());
+        LEVELS.add(ParamConst.LOG_LEVEL_OFF.toLowerCase());
+        LEVELS.add(ParamConst.LOG_LEVEL_TRACE.toLowerCase());
+        LEVELS.add(ParamConst.LOG_LEVEL_WARN.toLowerCase());
+
+        MODES.add(ParamConst.CLUSTER_MODE_STD);
+        MODES.add(ParamConst.CLUSTER_MODE_VMIP);
+        MODES.add(ParamConst.CLUSTER_MODE_ZK);
+    }
+
     public static CommandLine cli(String[] args) {
-        CLI cli = CLI.create(CmdConst.CLI_SHELL);
+        CLI cli = new StuartCLI().setName(CmdConst.CLI_SHELL);
         cli.setSummary(CmdConst.CLI_SUMMARY);
 
         Option cfg = new Option();
@@ -38,6 +60,19 @@ public class CmdUtil {
         storagePath.setShortName(CmdConst.STORAGE_PATH_S_NAME);
         storagePath.setDescription(CmdConst.STORAGE_PATH_DESC);
         storagePath.setRequired(false);
+
+        Option logPath = new Option();
+        logPath.setLongName(CmdConst.LOG_PATH_L_NAME);
+        logPath.setShortName(CmdConst.LOG_PATH_S_NAME);
+        logPath.setDescription(CmdConst.LOG_PATH_DESC);
+        logPath.setRequired(false);
+
+        Option logLevel = new Option();
+        logLevel.setLongName(CmdConst.LOG_LEVEL_L_NAME);
+        logLevel.setShortName(CmdConst.LOG_LEVEL_S_NAME);
+        logLevel.setDescription(CmdConst.LOG_LEVEL_DESC);
+        logLevel.setRequired(false);
+        logLevel.setChoices(LEVELS);
 
         Option mqttPort = new Option();
         mqttPort.setLongName(CmdConst.MQTT_PORT_L_NAME);
@@ -69,21 +104,59 @@ public class CmdUtil {
         httpPort.setDescription(CmdConst.HTTP_PORT_DESC);
         httpPort.setRequired(false);
 
+        Option clusterMode = new Option();
+        clusterMode.setLongName(CmdConst.CLUSTER_MODE_L_NAME);
+        clusterMode.setShortName(CmdConst.CLUSTER_MODE_S_NAME);
+        clusterMode.setDescription(CmdConst.CLUSTER_MODE_DESC);
+        clusterMode.setRequired(false);
+        clusterMode.setChoices(MODES);
+
+        Option vmipAddresses = new Option();
+        vmipAddresses.setLongName(CmdConst.VMIP_ADDRESSES_L_NAME);
+        vmipAddresses.setShortName(CmdConst.VMIP_ADDRESSES_S_NAME);
+        vmipAddresses.setDescription(CmdConst.VMIP_ADDRESSES_DESC);
+        vmipAddresses.setRequired(false);
+
+        Option zkConnectString = new Option();
+        zkConnectString.setLongName(CmdConst.ZK_CONNECT_STRING_L_NAME);
+        zkConnectString.setShortName(CmdConst.ZK_CONNECT_STRING_S_NAME);
+        zkConnectString.setDescription(CmdConst.ZK_CONNECT_STRING_DESC);
+        zkConnectString.setRequired(false);
+
+        Option zkRootPath = new Option();
+        zkRootPath.setLongName(CmdConst.ZK_ROOT_PATH_L_NAME);
+        zkRootPath.setShortName(CmdConst.ZK_ROOT_PATH_S_NAME);
+        zkRootPath.setDescription(CmdConst.ZK_ROOT_PATH_DESC);
+        zkRootPath.setRequired(false);
+
+        Option zkReconnect = new Option();
+        zkReconnect.setLongName(CmdConst.ZK_RECONNECT_ENABLE_L_NAME);
+        zkReconnect.setShortName(CmdConst.ZK_RECONNECT_ENABLE_S_NAME);
+        zkReconnect.setDescription(CmdConst.ZK_RECONNECT_ENABLE_DESC);
+        zkReconnect.setRequired(false);
+        zkReconnect.setChoices(new HashSet<String>(Arrays.asList(new String[] { "true", "false" })));
+
         cli.addOption(cfg);
         cli.addOption(instanceId);
         cli.addOption(listenAddr);
         cli.addOption(storagePath);
+        cli.addOption(logPath);
+        cli.addOption(logLevel);
         cli.addOption(mqttPort);
         cli.addOption(mqttSslPort);
         cli.addOption(wsPort);
         cli.addOption(wssPort);
         cli.addOption(httpPort);
+        cli.addOption(clusterMode);
+        cli.addOption(vmipAddresses);
+        cli.addOption(zkConnectString);
+        cli.addOption(zkRootPath);
+        cli.addOption(zkReconnect);
 
         CommandLine commandLine = null;
 
         try {
-            List<String> commandLineArgs = Arrays.asList(args);
-            commandLine = cli.parse(commandLineArgs);
+            commandLine = cli.parse(Arrays.asList(args));
         } catch (CLIException e) {
             StringBuilder builder = new StringBuilder();
             cli.usage(builder);

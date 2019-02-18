@@ -22,8 +22,9 @@ public class Starter {
 
         // initialize server configurations
         Config.init(commandLine);
-        // set server log properties
+        // set server log directory system property
         System.setProperty(PropConst.LOG_DIR, Config.getLogDir());
+        // set server log level system property
         System.setProperty(PropConst.LOG_LEVEL, Config.getLogLevel());
 
         // get cluster mode

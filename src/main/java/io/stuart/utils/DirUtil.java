@@ -2,6 +2,8 @@ package io.stuart.utils;
 
 import java.io.File;
 
+import io.stuart.exceptions.StartException;
+
 public class DirUtil {
 
     public static boolean mkdirs(String path) {
@@ -11,7 +13,11 @@ public class DirUtil {
             return false;
         }
 
-        return file.mkdirs();
+        try {
+            return file.mkdirs();
+        } catch (SecurityException e) {
+            throw new StartException(e);
+        }
     }
 
 }

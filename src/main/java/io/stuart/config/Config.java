@@ -418,10 +418,16 @@ public class Config {
         storageWalFlushFrequencyMs = props.getInt(PropConst.STORAGE_WAL_FLUSH_FREQUENCY_MS, ParamConst.STORAGE_WAL_FLUSH_FREQUENCY_MS);
 
         // get log directory
-        logDir = props.getStr(PropConst.LOG_DIR, ParamConst.LOG_DIR);
+        logDir = cmd.getOptionValue(CmdConst.LOG_PATH_L_NAME);
+        if (StringUtils.isBlank(logDir)) {
+            logDir = props.getStr(PropConst.LOG_DIR, ParamConst.LOG_DIR);
+        }
 
         // get log level
-        logLevel = LogUtil.level(props.getStr(PropConst.LOG_LEVEL, ParamConst.LOG_LEVEL_INFO));
+        logLevel = LogUtil.level(cmd.getOptionValue(CmdConst.LOG_LEVEL_L_NAME));
+        if (StringUtils.isBlank(logLevel)) {
+            logLevel = LogUtil.level(props.getStr(PropConst.LOG_LEVEL, ParamConst.LOG_LEVEL_INFO));
+        }
 
         // initialize storage directory
         mkdirs(cmd);
@@ -575,7 +581,10 @@ public class Config {
 
     private static void cluster(CommandLine cmd) {
         // get cluster mode configuration option
-        clusterMode = props.getStr(PropConst.CLUSTER_MODE, ParamConst.CLUSTER_MODE_STD);
+        clusterMode = cmd.getOptionValue(CmdConst.CLUSTER_MODE_L_NAME);
+        if (StringUtils.isBlank(clusterMode)) {
+            clusterMode = props.getStr(PropConst.CLUSTER_MODE, ParamConst.CLUSTER_MODE_STD);
+        }
 
         // get cluster storage backups
         clusterStorageBackups = props.getInt(PropConst.CLUSTER_STORAGE_BACKUPS, ParamConst.CLUSTER_STORAGE_BACKUPS);
@@ -586,13 +595,22 @@ public class Config {
         clusterBltRebalanceTimeMs = props.getInt(PropConst.CLSUTER_BLT_REBALANCE_TIME_MS, ParamConst.CLSUTER_BLT_REBALANCE_TIME_MS);
 
         // get vmip addresses
-        vmipAddresses = props.getStr(PropConst.VMIP_ADDRESSES);
+        vmipAddresses = cmd.getOptionValue(CmdConst.VMIP_ADDRESSES_L_NAME);
+        if (StringUtils.isBlank(vmipAddresses)) {
+            vmipAddresses = props.getStr(PropConst.VMIP_ADDRESSES);
+        }
 
         // get zookeeper connect string
-        zkConnectString = props.getStr(PropConst.ZK_CONNECT_STRING);
+        zkConnectString = cmd.getOptionValue(CmdConst.ZK_CONNECT_STRING_L_NAME);
+        if (StringUtils.isBlank(zkConnectString)) {
+            zkConnectString = props.getStr(PropConst.ZK_CONNECT_STRING);
+        }
 
         // get zookeeper root path
-        zkRootPath = props.getStr(PropConst.ZK_ROOT_PATH, ParamConst.ZK_ROOT_PATH);
+        zkRootPath = cmd.getOptionValue(CmdConst.ZK_ROOT_PATH_L_NAME);
+        if (StringUtils.isBlank(zkRootPath)) {
+            zkRootPath = props.getStr(PropConst.ZK_ROOT_PATH, ParamConst.ZK_ROOT_PATH);
+        }
 
         // get zookeeper join timeout
         zkJoinTimeoutMs = props.getLong(PropConst.ZK_JOIN_TIMEOUT_MS, ParamConst.ZK_JOIN_TIMEOUT_MS);
@@ -601,7 +619,12 @@ public class Config {
         zkSessionTimeoutMs = props.getLong(PropConst.ZK_SESSION_TIMEOUT_MS, ParamConst.ZK_SESSION_TIMEOUT_MS);
 
         // get zookeeper client reconnect enable
-        zkReconnectEnable = props.getBool(PropConst.ZK_RECONNECT_ENABLE, ParamConst.ZK_RECONNECT_ENABLE);
+        Boolean zkReconnectOptionValue = cmd.getOptionValue(CmdConst.ZK_RECONNECT_ENABLE_L_NAME);
+        if (zkReconnectOptionValue != null) {
+            zkReconnectEnable = zkReconnectOptionValue;
+        } else {
+            zkReconnectEnable = props.getBool(PropConst.ZK_RECONNECT_ENABLE, ParamConst.ZK_RECONNECT_ENABLE);
+        }
     }
 
     private static void mkdirs(CommandLine cmd) {

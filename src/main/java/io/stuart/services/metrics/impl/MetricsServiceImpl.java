@@ -317,7 +317,7 @@ public class MetricsServiceImpl implements MetricsService {
                         }
                     }
                 } catch (Exception e) {
-                    Logger.log().error("record metrics has an exception: {}", e.getMessage());
+                    Logger.log().error("record metrics has an exception: {}.", e.getMessage());
                 }
             }
 

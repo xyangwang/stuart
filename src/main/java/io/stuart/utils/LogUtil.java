@@ -7,12 +7,12 @@ import io.stuart.consts.ParamConst;
 public class LogUtil {
 
     public static String level(String level) {
-        String result = ParamConst.LOG_LEVEL_INFO;
-
         if (StringUtils.isBlank(level)) {
-            return result;
+            return null;
         }
 
+        // result
+        String result = ParamConst.LOG_LEVEL_INFO;
         // to upper case
         String upper = level.toUpperCase();
 
