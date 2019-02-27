@@ -47,7 +47,7 @@ B. 对于持久化 Session， 则使用 [Apache Ignite](https://ignite.apache.or
 <img src="https://images.gitee.com/uploads/images/2019/0227/151442_7865d85a_581533.png" />
 
 系统主要分成五大服务模块：<br>
-A. Cache Service：对其他模块提供持久化服务；<br>
+A. Cache Service：为其他模块提供持久化服务；<br>
 B. Auth Service：提供连接用户的认证，订阅/发布的访问控制，以及针对 local 模式下相关信息的管理配置；<br>
 C. Session Service：管理连接到服务的 Session；<br>
 D. Verticle Service：管理各类 Verticle 和 Service，Verticle 是各 Listener 的具体实现，为各类客户端提供连接访问；<br>
