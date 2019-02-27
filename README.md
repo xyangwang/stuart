@@ -24,10 +24,45 @@ Stuart是一个基于 [Eclipse Vert.x](https://vertx.io) 和 [Apache Ignite](htt
 4. 成功启动后，就可以使用 `mosquitto_sub` 和 `mosquitto_pub` 命令或者其他 client library 进行开发测试
 
 #### 系统架构
-![功能存储](https://images.gitee.com/uploads/images/2019/0227/145041_ac426df1_581533.png "功能性存储架构图.png")
-![Session存储](https://images.gitee.com/uploads/images/2019/0227/145126_9b8505d6_581533.png "Session存储架构图.png")
-![节点架构](https://images.gitee.com/uploads/images/2019/0227/145147_4738b1be_581533.png "单节点架构图.png")
-![集群架构](https://images.gitee.com/uploads/images/2019/0227/145208_fbab8e4d_581533.png "集群架构图.png") 
+1. 系统存储
+
+<img src="https://images.gitee.com/uploads/images/2019/0227/151339_7fcb9c6f_581533.png" />
+<br>
+<img src="https://images.gitee.com/uploads/images/2019/0227/151424_0ef59029_581533.png" />
+
+系统使用 [Apache Ignite](https://ignite.apache.org) 原生持久化功能对信息进行存储<br>
+存储包括：节点信息、监听器信息、连接信息、会话信息、路由信息、Will 消息、Retain 消息、管理员信息、连接用户信息和访问控制信息。<br>
+节点信息、监听器信息和连接信息使用纯内存模式存储，其他信息采用持久化模式存储。<br>
+
+路由信息包括两部分：<br>
+A. topic 到 node 与 client 的映射关系；<br>
+B. wildcard topic 的前缀树结构。<br>
+
+针对持久化和非持久化两种 Session，分别采用两套不同的存储结构：<br>
+A. 对于非持久化 Session，基于这类 Session 的消息不需要持久化，所以使用 On-Heap 内存对消息进行存储；<br>
+B. 对于持久化 Session， 则使用 [Apache Ignite](https://ignite.apache.org) 的 IgniteCache 和 IgniteQueue 进行存储。<br>
+
+2. 节点架构
+
+<img src="https://images.gitee.com/uploads/images/2019/0227/151442_7865d85a_581533.png" />
+
+系统主要分成五大服务模块：<br>
+A. Cache Service：对其他模块提供持久化服务；<br>
+B. Auth Service：提供连接用户的认证，订阅/发布的访问控制，以及针对 local 模式下相关信息的管理配置；<br>
+C. Session Service：管理连接到服务的 Session；<br>
+D. Verticle Service：管理各类 Verticle 和 Service，Verticle 是各 Listener 的具体实现，为各类客户端提供连接访问；<br>
+E. Metrics Service：针对 MQTT 协议的包/消息数/消息有效载荷字节数，以及 Session 运行信息的收集和统计。<br>
+备注：由于 MQTT over WebSocket 暂时没有实现，所以上图中这部分用虚线标识。
+
+3. 集群架构
+
+<img src="https://images.gitee.com/uploads/images/2019/0227/151458_64ce6a04_581533.png" />
+
+Stuart 目前可以使用两种方式组建集群：<br>
+A. 静态 IP 列表；<br>
+B. ZooKeeper 服务发现。
+
+系统先通过上述方式将 [Apache Ignite](https://ignite.apache.org) 组成集群，然后再使用 [Eclipse Vert.x](https://vertx.io) 通过 [Apache Ignite](https://ignite.apache.org) 组成集群，这样就可以使用 [Eclipse Vert.x](https://vertx.io) 提供的高效的 Event Bus 在节点间进行通讯。
 
 #### 配置文件
 
