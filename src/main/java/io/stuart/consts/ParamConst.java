@@ -92,7 +92,7 @@ public interface ParamConst {
 
     static final int MQTT_CLIENT_IDLE_TIMEOUT_S = 30;
 
-    static final int MQTT_MESSAGE_MAX_PAYLOAD = 64;
+    static final int MQTT_MESSAGE_MAX_SIZE = 64;
 
     static final int MQTT_RETAIN_MAX_CAPACITY = 1000000;
 

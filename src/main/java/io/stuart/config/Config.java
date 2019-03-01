@@ -113,7 +113,7 @@ public class Config {
     private static int mqttClientIdleTimeoutS = ParamConst.MQTT_CLIENT_IDLE_TIMEOUT_S;
 
     @Getter
-    private static int mqttMessageMaxPayload = ParamConst.MQTT_MESSAGE_MAX_PAYLOAD;
+    private static int mqttMessageMaxSize = ParamConst.MQTT_MESSAGE_MAX_SIZE;
 
     @Getter
     private static int mqttRetainMaxCapacity = ParamConst.MQTT_RETAIN_MAX_CAPACITY;
@@ -503,8 +503,8 @@ public class Config {
         // get client idle timeout
         mqttClientIdleTimeoutS = props.getInt(PropConst.MQTT_CLIENT_IDLE_TIMEOUT_S, ParamConst.MQTT_CLIENT_IDLE_TIMEOUT_S);
 
-        // get message max size(this property unit is KB), switch to byte
-        mqttMessageMaxPayload = props.getInt(PropConst.MQTT_MESSAGE_MAX_PAYLOAD, ParamConst.MQTT_MESSAGE_MAX_PAYLOAD) * 1024;
+        // set message max size(this property unit is KB), switch to bytes
+        mqttMessageMaxSize = props.getInt(PropConst.MQTT_MESSAGE_MAX_SIZE, ParamConst.MQTT_MESSAGE_MAX_SIZE) * 1024;
 
         // get mqtt retain message max capacity
         mqttRetainMaxCapacity = props.getInt(PropConst.MQTT_RETAIN_MAX_CAPACITY, ParamConst.MQTT_RETAIN_MAX_CAPACITY);

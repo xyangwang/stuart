@@ -47,7 +47,7 @@ public class ClsTcpMqttVerticleImpl extends ClsAbstractMqttVerticle {
         // set mqtt server options
         options.setHost(Config.getInstanceListenAddr());
         options.setPort(Config.getMqttPort());
-        options.setMaxMessageSize(Config.getMqttMessageMaxPayload());
+        options.setMaxMessageSize(Config.getMqttMessageMaxSize());
         options.setTimeoutOnConnect(Config.getMqttClientConnectTimeoutS());
 
         // return mqtt server options

@@ -20,7 +20,7 @@ Stuart是一个基于 [Eclipse Vert.x](https://vertx.io) 和 [Apache Ignite](htt
 2. 下载 release 版本，使用如下命令直接运行：`java -jar stuart-0.0.11-alpha-fat.jar`<br>
    运行后会在 stuart-0.0.11-alpha-fat.jar 文件的同级目录下创建 storage 和 log 两个目录，在未通过 --cfg 指定配置文件时，Stuart 将使用 jar 包中自带的 cfg.properties 进行启动<br>
    如果想查看启动命令的具体参数，可以使用如下命令：`java -jar stuart-0.0.11-alpha-fat.jar -h`<br>
-3. 通过 maven 编译，使用 `git clone https://gitee.com/x87/stuart.git` 命令或者在 Stuart 项目页面直接下载源码，使用自己熟悉的 IDE 导入工程进行二次开发，使用 `mvn install` 命令编译打包
+3. 通过 maven 编译，使用 `git clone https://gitee.com/x87/stuart.git` 或 `git clone https://github.com/xyangwang/stuart.git` 命令，或者在 Stuart 项目页面直接下载源码，使用自己熟悉的 IDE 导入工程进行二次开发，使用 `mvn install` 命令编译打包
 4. 成功启动后，就可以使用 `mosquitto_sub` 和 `mosquitto_pub` 命令或者其他 client library 进行开发测试
 
 #### 系统架构

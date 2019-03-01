@@ -48,7 +48,7 @@ public class StdSslMqttVerticleImpl extends StdAbstractMqttVerticle {
         // set mqtt server options
         options.setHost(Config.getInstanceListenAddr());
         options.setPort(Config.getMqttSslPort());
-        options.setMaxMessageSize(Config.getMqttMessageMaxPayload());
+        options.setMaxMessageSize(Config.getMqttMessageMaxSize());
         options.setTimeoutOnConnect(Config.getMqttClientConnectTimeoutS());
         options.setKeyCertOptions(new PemKeyCertOptions().setKeyPath(Config.getMqttSslKeyPath()).setCertPath(Config.getMqttSslCertPath()));
         options.setSsl(true);

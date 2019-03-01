@@ -60,7 +60,7 @@ public interface PropConst {
 
     static final String MQTT_CLIENT_IDLE_TIMEOUT_S = "mqtt.client.idle-timeout-s";
 
-    static final String MQTT_MESSAGE_MAX_PAYLOAD = "mqtt.message.max-payload-kb";
+    static final String MQTT_MESSAGE_MAX_SIZE = "mqtt.message.max-size-kb";
 
     static final String MQTT_RETAIN_MAX_CAPACITY = "mqtt.retain.max-capacity";
 
