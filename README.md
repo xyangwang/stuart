@@ -110,14 +110,15 @@ websocket.max-connections=64
 websocket.ssl-max-connections=64
 
 # mqtt configuration
+# mqtt max message size (variable header + payload)
 # 客户端 ID 最大长度
 mqtt.client.max-len=1024
 # 客户端连接超时时间
 mqtt.client.connect-timeout-s=30
 # 客户端限制超时时间
 mqtt.client.idle-timeout-s=30
-# 消息 payload 最大限制
-mqtt.message.max-payload-kb=64
+# 消息最大限制(variable header + payload)
+mqtt.message.max-size-kb=64
 # 保存 retained 消息的最大数量
 mqtt.retain.max-capacity=1000000
 # retained 消息 payload 最大限制
