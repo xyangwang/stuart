@@ -42,4 +42,8 @@ public interface SysConst {
 
     static String SSL_PROTOCOL = "SSL";
 
+    static String WEBSOCKET_PROTOCOL = "WS";
+
+    static String SSL_WEBSOCKET_PROTOCOL = "WSS";
+
 }

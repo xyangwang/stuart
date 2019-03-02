@@ -32,6 +32,8 @@ import io.stuart.tasks.SysRuntimeInfoTask;
 import io.stuart.utils.VertxUtil;
 import io.stuart.verticles.mqtt.impl.StdSslMqttVerticleImpl;
 import io.stuart.verticles.mqtt.impl.StdTcpMqttVerticleImpl;
+import io.stuart.verticles.mqtt.impl.StdWsMqttVerticleImpl;
+import io.stuart.verticles.mqtt.impl.StdWssMqttVerticleImpl;
 import io.stuart.verticles.web.impl.WebVerticleImpl;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
@@ -88,11 +90,15 @@ public class StdVerticleServiceImpl implements VerticleService {
 
         // deploy the standalone tcp mqtt verticle
         vertx.deployVerticle(StdTcpMqttVerticleImpl.class.getName(), deploymentOptions);
+        // deploy the standalone websocket mqtt verticle
+        vertx.deployVerticle(StdWsMqttVerticleImpl.class.getName(), deploymentOptions);
 
         // if enable mqtt ssl protocol
         if (Config.isMqttSslEnable()) {
             // deploy the standalone ssl mqtt verticle
             vertx.deployVerticle(StdSslMqttVerticleImpl.class.getName(), deploymentOptions);
+            // deploy the standalone ssl websocket mqtt verticle
+            vertx.deployVerticle(StdWssMqttVerticleImpl.class.getName(), deploymentOptions);
         }
 
         // deploy the web verticle

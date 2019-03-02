@@ -35,6 +35,8 @@ import io.stuart.tasks.SysRuntimeInfoTask;
 import io.stuart.utils.VertxUtil;
 import io.stuart.verticles.mqtt.impl.ClsSslMqttVerticleImpl;
 import io.stuart.verticles.mqtt.impl.ClsTcpMqttVerticleImpl;
+import io.stuart.verticles.mqtt.impl.ClsWsMqttVerticleImpl;
+import io.stuart.verticles.mqtt.impl.ClsWssMqttVerticleImpl;
 import io.stuart.verticles.web.impl.WebVerticleImpl;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
@@ -102,11 +104,15 @@ public class ClsVerticleServiceImpl implements VerticleService {
 
                 // deploy the clustered tcp mqtt verticle
                 vertx.deployVerticle(ClsTcpMqttVerticleImpl.class.getName(), deploymentOptions);
+                // deploy the clustered websocket mqtt verticle
+                vertx.deployVerticle(ClsWsMqttVerticleImpl.class.getName(), deploymentOptions);
 
                 // if enable mqtt ssl protocol
                 if (Config.isMqttSslEnable()) {
                     // deploy the clustered ssl mqtt verticle
                     vertx.deployVerticle(ClsSslMqttVerticleImpl.class.getName(), deploymentOptions);
+                    // deploy the clustered ssl websocket mqtt verticle
+                    vertx.deployVerticle(ClsWssMqttVerticleImpl.class.getName(), deploymentOptions);
                 }
 
                 // deploy the web verticle

@@ -74,7 +74,11 @@ public interface ParamConst {
 
     static final int WS_PORT = 8080;
 
+    static final String WS_PATH = "/mqtt";
+
     static final int WSS_PORT = 8083;
+
+    static final String WSS_PATH = "/mqttssl";
 
     static final int HTTP_PORT = 18083;
 
@@ -92,7 +96,9 @@ public interface ParamConst {
 
     static final int MQTT_CLIENT_IDLE_TIMEOUT_S = 30;
 
-    static final int MQTT_MESSAGE_MAX_SIZE = 64;
+    static final int MQTT_PACKET_MAX_SIZE = 64;
+
+    static final int MQTT_FIXED_HEADER_MIN_SIZE = 2;
 
     static final int MQTT_RETAIN_MAX_CAPACITY = 1000000;
 

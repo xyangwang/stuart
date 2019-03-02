@@ -86,7 +86,13 @@ public class Config {
     private static Integer wsPort = ParamConst.WS_PORT;
 
     @Getter
+    private static String wsPath = ParamConst.WS_PATH;
+
+    @Getter
     private static Integer wssPort = ParamConst.WSS_PORT;
+
+    @Getter
+    private static String wssPath = ParamConst.WSS_PATH;
 
     @Getter
     private static Integer httpPort = ParamConst.HTTP_PORT;
@@ -113,7 +119,10 @@ public class Config {
     private static int mqttClientIdleTimeoutS = ParamConst.MQTT_CLIENT_IDLE_TIMEOUT_S;
 
     @Getter
-    private static int mqttMessageMaxSize = ParamConst.MQTT_MESSAGE_MAX_SIZE;
+    private static int mqttPacketMaxSize = ParamConst.MQTT_PACKET_MAX_SIZE;
+
+    @Getter
+    private static int mqttMessageMaxSize = ParamConst.MQTT_PACKET_MAX_SIZE - ParamConst.MQTT_FIXED_HEADER_MIN_SIZE;
 
     @Getter
     private static int mqttRetainMaxCapacity = ParamConst.MQTT_RETAIN_MAX_CAPACITY;
@@ -468,11 +477,17 @@ public class Config {
             wsPort = props.getInt(PropConst.WS_PORT, ParamConst.WS_PORT);
         }
 
+        // get websocket path
+        wsPath = props.getStr(PropConst.WS_PATH, ParamConst.WS_PATH);
+
         // get websocket ssl listen port
         wssPort = cmd.getOptionValue(CmdConst.WSS_PORT_L_NAME);
         if (wssPort == null || wssPort <= 0) {
             wssPort = props.getInt(PropConst.WSS_PORT, ParamConst.WSS_PORT);
         }
+
+        // get websocket ssl path
+        wssPath = props.getStr(PropConst.WSS_PATH, ParamConst.WSS_PATH);
 
         // get http listen port
         httpPort = cmd.getOptionValue(CmdConst.HTTP_PORT_L_NAME);
@@ -503,8 +518,11 @@ public class Config {
         // get client idle timeout
         mqttClientIdleTimeoutS = props.getInt(PropConst.MQTT_CLIENT_IDLE_TIMEOUT_S, ParamConst.MQTT_CLIENT_IDLE_TIMEOUT_S);
 
-        // set message max size(this property unit is KB), switch to bytes
-        mqttMessageMaxSize = props.getInt(PropConst.MQTT_MESSAGE_MAX_SIZE, ParamConst.MQTT_MESSAGE_MAX_SIZE) * 1024;
+        // set packet max size(this property unit is KB), switch to bytes
+        mqttPacketMaxSize = props.getInt(PropConst.MQTT_PACKET_MAX_SIZE, ParamConst.MQTT_PACKET_MAX_SIZE) * 1024;
+
+        // set message max size
+        mqttMessageMaxSize = mqttPacketMaxSize - ParamConst.MQTT_FIXED_HEADER_MIN_SIZE;
 
         // get mqtt retain message max capacity
         mqttRetainMaxCapacity = props.getInt(PropConst.MQTT_RETAIN_MAX_CAPACITY, ParamConst.MQTT_RETAIN_MAX_CAPACITY);

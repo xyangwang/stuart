@@ -42,7 +42,11 @@ public interface PropConst {
 
     static final String WS_PORT = "websocket.port";
 
+    static final String WS_PATH = "websocket.path";
+
     static final String WSS_PORT = "websocket.ssl-port";
+
+    static final String WSS_PATH = "websocket.ssl-path";
 
     static final String HTTP_PORT = "http.port";
 
@@ -60,7 +64,7 @@ public interface PropConst {
 
     static final String MQTT_CLIENT_IDLE_TIMEOUT_S = "mqtt.client.idle-timeout-s";
 
-    static final String MQTT_MESSAGE_MAX_SIZE = "mqtt.message.max-size-kb";
+    static final String MQTT_PACKET_MAX_SIZE = "mqtt.packet.max-size-kb";
 
     static final String MQTT_RETAIN_MAX_CAPACITY = "mqtt.retain.max-capacity";
 
