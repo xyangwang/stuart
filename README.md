@@ -92,10 +92,14 @@ instance.log.level=info
 mqtt.port=1883
 # SSL MQTT 端口
 mqtt.ssl-port=8883
-# MQTT Over WebSocket 端口(未实现)
+# MQTT Over WebSocket 端口
 websocket.port=8080
-# MQTT Over SSL WebSocket 端口(未实现)
+# MQTT Over WebSocket URL Path
+websocket.path=/mqtt
+# MQTT Over SSL WebSocket 端口
 websocket.ssl-port=8083
+# MQTT Over SSL WebSocket URL Path
+websocket.ssl-path=/mqttssl
 # Web 端口
 http.port=18083
 
@@ -110,15 +114,15 @@ websocket.max-connections=64
 websocket.ssl-max-connections=64
 
 # mqtt configuration
-# mqtt max message size (variable header + payload)
+# mqtt packet max size (fixed header + variable header + payload)
 # 客户端 ID 最大长度
 mqtt.client.max-len=1024
 # 客户端连接超时时间
 mqtt.client.connect-timeout-s=30
 # 客户端限制超时时间
 mqtt.client.idle-timeout-s=30
-# 消息最大限制(variable header + payload)
-mqtt.message.max-size-kb=64
+# MQTT Packet 最大限制(fixed header + variable header + payload)
+mqtt.packet.max-size-kb=64
 # 保存 retained 消息的最大数量
 mqtt.retain.max-capacity=1000000
 # retained 消息 payload 最大限制
@@ -135,7 +139,7 @@ mqtt.ssl-cert-path=./server-cert.pem
 mqtt.metrics-enable=true
 
 # session configuration
-# 发送消息时，是否对 QoS 进行升级处理，默认做降级处理，即消息与主题两者的QoS取较小者
+# 发送消息时，是否对 QoS 进行升级处理，默认做降级处理，即消息与主题两者的 QoS 取较小者
 session.upgrade-qos=false
 # 服务器端会话等待 QoS2 消息 PUBREL 指令的最大容量
 session.await-rel.max-capacity=1000
