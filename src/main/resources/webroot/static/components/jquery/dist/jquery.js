@@ -9544,7 +9544,7 @@
                                     }
                                 } else {
                                     // session timeout
-                                    if (options.url.endsWith('.html') && xhr.responseText.startsWith('<!DOCTYPE html>')) {
+                                    if (options.url.endsWith('.html') && xhr.responseURL && xhr.responseURL.endsWith('login.html')) {
                                         // go to login page
                                         window.location.href = '/';
                                     } else {
