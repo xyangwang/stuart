@@ -109,9 +109,9 @@ http.port=18083
 mqtt.max-connections=102400
 # SSL MQTT 最大连接数
 mqtt.ssl-max-connections=1024
-# MQTT Over WebSocket 最大连接数(未实现)
+# MQTT over WebSocket 最大连接数
 websocket.max-connections=64
-# MQTT Over SSL WebSocket 最大连接数(未实现)
+# MQTT over SSL WebSocket 最大连接数
 websocket.ssl-max-connections=64
 
 # mqtt configuration
