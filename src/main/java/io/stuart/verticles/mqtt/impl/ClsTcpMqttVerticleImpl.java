@@ -30,7 +30,7 @@ public class ClsTcpMqttVerticleImpl extends ClsAbstractMqttVerticle {
 
     @Override
     public MqttServerOptions initOptions() {
-        Logger.log().info("Stuart initialize clustered mqtt server options for TCP protocol.");
+        Logger.log().debug("Stuart initialize clustered mqtt server options for TCP protocol.");
 
         // set protocol
         protocol = SysConst.MQTT + SysConst.COLON + SysConst.TCP_PROTOCOL;

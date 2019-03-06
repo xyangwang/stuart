@@ -46,7 +46,9 @@ public abstract class StdAbstractMqttVerticle extends AbstractMqttVerticle {
 
     @Override
     public void start() throws Exception {
-        Logger.log().info("Stuart's standalone mqtt verticle start...");
+        super.start();
+
+        Logger.log().debug("Stuart's standalone mqtt verticle start...");
 
         // set cache service
         cacheService = StdCacheServiceImpl.getInstance();
@@ -69,7 +71,7 @@ public abstract class StdAbstractMqttVerticle extends AbstractMqttVerticle {
             handleEndpoint(endpoint);
         }).listen(ar -> {
             if (ar.succeeded()) {
-                Logger.log().info("Stuart's standalone mqtt verticle start succeeded, the verticle listen at port {}.", port);
+                Logger.log().debug("Stuart's standalone mqtt verticle start succeeded, the verticle listen at port {}.", port);
             } else {
                 Logger.log().error("Stuart's standalone mqtt verticle start failed, excpetion: {}.", ar.cause().getMessage());
             }
@@ -78,7 +80,7 @@ public abstract class StdAbstractMqttVerticle extends AbstractMqttVerticle {
 
     @Override
     public void stop() throws Exception {
-        // do nothing...
+        super.stop();
     }
 
     @Override

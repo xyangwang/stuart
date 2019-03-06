@@ -53,7 +53,7 @@ public abstract class ClsAbstractMqttVerticle extends AbstractMqttVerticle {
     public void start() throws Exception {
         super.start();
 
-        Logger.log().info("Stuart's clustered mqtt verticle start...");
+        Logger.log().debug("Stuart's clustered mqtt verticle start...");
 
         // set cache service
         cacheService = ClsCacheServiceImpl.getInstance();
@@ -87,7 +87,7 @@ public abstract class ClsAbstractMqttVerticle extends AbstractMqttVerticle {
                 message.reply(true);
             }).completionHandler(ar -> {
                 if (ar.succeeded()) {
-                    Logger.log().info("Stuart's clustered mqtt verticle's publish message consumer register succeeded.");
+                    Logger.log().debug("Stuart's clustered mqtt verticle's publish message consumer register succeeded.");
                 } else {
                     Logger.log().error("Stuart's clustered mqtt verticle's publish message consumer register failed, exception: {}.", ar.cause().getMessage());
                 }
@@ -98,7 +98,7 @@ public abstract class ClsAbstractMqttVerticle extends AbstractMqttVerticle {
             handleEndpoint(endpoint);
         }).listen(ar -> {
             if (ar.succeeded()) {
-                Logger.log().info("Stuart's clustered mqtt verticle start succeeded, the verticle listen at port {}.", port);
+                Logger.log().debug("Stuart's clustered mqtt verticle start succeeded, the verticle listen at port {}.", port);
             } else {
                 Logger.log().error("Stuart's clustered mqtt verticle start failed, excpetion: {}.", ar.cause().getMessage());
             }
@@ -113,7 +113,7 @@ public abstract class ClsAbstractMqttVerticle extends AbstractMqttVerticle {
             // consumer unregister
             consumer.unregister(ar -> {
                 if (ar.succeeded()) {
-                    Logger.log().info("Stuart's clustered mqtt verticle's publish message consumer unregister succeeded.");
+                    Logger.log().debug("Stuart's clustered mqtt verticle's publish message consumer unregister succeeded.");
                 } else {
                     Logger.log().error("Stuart's clustered mqtt verticle's publish message consumer unregister failed, exception: {}.",
                             ar.cause().getMessage());

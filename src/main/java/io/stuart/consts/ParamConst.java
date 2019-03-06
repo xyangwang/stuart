@@ -78,7 +78,7 @@ public interface ParamConst {
 
     static final int WSS_PORT = 8083;
 
-    static final String WSS_PATH = "/mqttssl";
+    static final String WSS_PATH = "/mqtt";
 
     static final int HTTP_PORT = 18083;
 

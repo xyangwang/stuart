@@ -31,7 +31,7 @@ public class StdSslMqttVerticleImpl extends StdAbstractMqttVerticle {
 
     @Override
     public MqttServerOptions initOptions() {
-        Logger.log().info("Stuart initialize standalone mqtt server options for SSL protocol.");
+        Logger.log().debug("Stuart initialize standalone mqtt server options for SSL protocol.");
 
         // set protocol
         protocol = SysConst.MQTT + SysConst.COLON + SysConst.SSL_PROTOCOL;

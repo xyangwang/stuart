@@ -114,3 +114,29 @@ function alertMessage(title, content, failed) {
 function alertSystemException() {
     alertMessage(locale_messages.common_alert_title, locale_messages.common_alert_error_content, true);
 }
+
+function showNotify(message, type) {
+    if ($.notify) {
+        var notifyIcon = 'glyphicon glyphicon-info-sign';
+
+        if (type == 'info') {
+            notifyIcon = 'glyphicon glyphicon-info-sign';
+        } else if (type == 'warning') {
+            notifyIcon = 'glyphicon glyphicon-warning-sign';
+        } else if (type == 'success') {
+            notifyIcon = 'glyphicon glyphicon-ok-sign';
+        } else if (type == 'error') {
+            notifyIcon = 'glyphicon glyphicon-exclamation-sign';
+        }
+
+        $.notify({
+            icon: notifyIcon,
+            message: message
+        }, {
+            type: type,
+            newest_on_top: true,
+            allow_dismiss: true,
+            delay: 1000
+        });
+    }
+}

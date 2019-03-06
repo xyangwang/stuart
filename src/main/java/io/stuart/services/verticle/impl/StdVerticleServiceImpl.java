@@ -89,20 +89,50 @@ public class StdVerticleServiceImpl implements VerticleService {
         metricsService.start();
 
         // deploy the standalone tcp mqtt verticle
-        vertx.deployVerticle(StdTcpMqttVerticleImpl.class.getName(), deploymentOptions);
+        vertx.deployVerticle(StdTcpMqttVerticleImpl.class.getName(), deploymentOptions, ar -> {
+            if (ar.succeeded()) {
+                Logger.log().info("Stuart's MQTT protocol verticle(s) deploy succeeded, listen at port {}.", Config.getMqttPort());
+            } else {
+                Logger.log().error("Stuart's MQTT protocol verticle(s) deploy failed, excpetion: {}.", ar.cause().getMessage());
+            }
+        });
         // deploy the standalone websocket mqtt verticle
-        vertx.deployVerticle(StdWsMqttVerticleImpl.class.getName(), deploymentOptions);
+        vertx.deployVerticle(StdWsMqttVerticleImpl.class.getName(), deploymentOptions, ar -> {
+            if (ar.succeeded()) {
+                Logger.log().info("Stuart's MQTT over WebSocket verticle(s) deploy succeeded, listen at port {}.", Config.getWsPort());
+            } else {
+                Logger.log().error("Stuart's MQTT over WebSocket verticle(s) deploy failed, excpetion: {}.", ar.cause().getMessage());
+            }
+        });
 
         // if enable mqtt ssl protocol
         if (Config.isMqttSslEnable()) {
             // deploy the standalone ssl mqtt verticle
-            vertx.deployVerticle(StdSslMqttVerticleImpl.class.getName(), deploymentOptions);
+            vertx.deployVerticle(StdSslMqttVerticleImpl.class.getName(), deploymentOptions, ar -> {
+                if (ar.succeeded()) {
+                    Logger.log().info("Stuart's MQTT SSL protocol verticle(s) deploy succeeded, listen at port {}.", Config.getMqttSslPort());
+                } else {
+                    Logger.log().error("Stuart's MQTT SSL protocol verticle(s) deploy failed, excpetion: {}.", ar.cause().getMessage());
+                }
+            });
             // deploy the standalone ssl websocket mqtt verticle
-            vertx.deployVerticle(StdWssMqttVerticleImpl.class.getName(), deploymentOptions);
+            vertx.deployVerticle(StdWssMqttVerticleImpl.class.getName(), deploymentOptions, ar -> {
+                if (ar.succeeded()) {
+                    Logger.log().info("Stuart's MQTT over SSL WebSocket verticle(s) deploy succeeded, listen at port {}.", Config.getWssPort());
+                } else {
+                    Logger.log().error("Stuart's MQTT over SSL WebSocket verticle(s) deploy failed, excpetion: {}.", ar.cause().getMessage());
+                }
+            });
         }
 
         // deploy the web verticle
-        vertx.deployVerticle(new WebVerticleImpl(vertx, cacheService));
+        vertx.deployVerticle(new WebVerticleImpl(vertx, cacheService), ar -> {
+            if (ar.succeeded()) {
+                Logger.log().info("Stuart's WEB management verticle deploy succeeded, listen at port {}.", Config.getHttpPort());
+            } else {
+                Logger.log().error("Stuart's WEB management verticle deploy failed, excpetion: {}.", ar.cause().getMessage());
+            }
+        });
 
         // set scheduled task
         timer.schedule(new SysRuntimeInfoTask(cacheService), 0, Config.getInstanceMetricsPeriodMs());

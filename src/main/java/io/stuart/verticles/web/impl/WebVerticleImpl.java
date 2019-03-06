@@ -111,7 +111,7 @@ public class WebVerticleImpl extends AbstractVerticle implements WebVerticle {
 
     @Override
     public void start() throws Exception {
-        Logger.log().info("Stuart's web verticle start...");
+        Logger.log().debug("Stuart's web verticle start...");
 
         // initialize http options
         HttpServerOptions options = new HttpServerOptions();
@@ -280,7 +280,7 @@ public class WebVerticleImpl extends AbstractVerticle implements WebVerticle {
 
         server.requestHandler(router).listen(ar -> {
             if (ar.succeeded()) {
-                Logger.log().info("Stuart's web verticle start succeeded, the verticle listen at port {}.", Config.getHttpPort());
+                Logger.log().debug("Stuart's web verticle start succeeded, the verticle listen at port {}.", Config.getHttpPort());
             } else {
                 Logger.log().error("Stuart's web verticle start failed, excpetion: {}.", ar.cause().getMessage());
             }

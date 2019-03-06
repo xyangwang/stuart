@@ -14,7 +14,7 @@ public class StdWsMqttVerticleImpl extends StdAbstractMqttVerticle {
 
     @Override
     public MqttServerOptions initOptions() {
-        Logger.log().info("Stuart initialize standalone mqtt server options for WebSocket protocol.");
+        Logger.log().debug("Stuart initialize standalone mqtt server options for WebSocket protocol.");
 
         // set protocol
         protocol = SysConst.MQTT + SysConst.COLON + SysConst.WEBSOCKET_PROTOCOL;

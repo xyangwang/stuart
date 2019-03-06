@@ -368,7 +368,7 @@
         content.push(locale_messages.acl_authority);
         content.push('</th>');
         content.push('<th>');
-        content.push(locale_messages.acl_oper);
+        content.push(locale_messages.common_oper);
         content.push('</th>');
         content.push('</tr></thead>');
         content.push('<tbody></tbody></table>');
@@ -378,6 +378,7 @@
 
     function queryAclDataTable() {
         aclDataTable = $('#acl-info-table').DataTable({
+            'destroy': true,
             'language': datatablesLanguage(),
             'autoWidth': true,
             'searching': false,

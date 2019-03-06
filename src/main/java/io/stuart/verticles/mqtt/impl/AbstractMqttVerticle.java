@@ -337,7 +337,6 @@ public abstract class AbstractMqttVerticle extends AbstractVerticle implements M
 
     @Override
     public void handleUnsubscribe(MqttEndpoint endpoint, MqttUnsubscribeMessage unsubscribe) {
-
         vertx.executeBlocking(future -> {
             // get mqtt session wrapper
             SessionWrapper wrapper = sessionService.getWrapper(endpoint.clientIdentifier());

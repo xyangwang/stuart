@@ -15,7 +15,7 @@ public class ClsWssMqttVerticleImpl extends ClsAbstractMqttVerticle {
 
     @Override
     public MqttServerOptions initOptions() {
-        Logger.log().info("Stuart initialize clustered mqtt server options for SSL WebSocket protocol.");
+        Logger.log().debug("Stuart initialize clustered mqtt server options for SSL WebSocket protocol.");
 
         // set protocol
         protocol = SysConst.MQTT + SysConst.COLON + SysConst.SSL_WEBSOCKET_PROTOCOL;

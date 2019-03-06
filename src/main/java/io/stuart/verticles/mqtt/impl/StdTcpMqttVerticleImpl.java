@@ -30,7 +30,7 @@ public class StdTcpMqttVerticleImpl extends StdAbstractMqttVerticle {
 
     @Override
     public MqttServerOptions initOptions() {
-        Logger.log().info("Stuart initialize standalone mqtt server options for TCP protocol.");
+        Logger.log().debug("Stuart initialize standalone mqtt server options for TCP protocol.");
 
         // set protocol
         protocol = SysConst.MQTT + SysConst.COLON + SysConst.TCP_PROTOCOL;
