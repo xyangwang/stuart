@@ -280,7 +280,7 @@ zookeeper.reconnect.enable=true
 ![监听器](https://images.gitee.com/uploads/images/2019/0221/213903_5ca05ccb_581533.png "屏幕快照 2019-02-21 21.26.44.png")
 ![WebSocket](https://images.gitee.com/uploads/images/2019/0306/093713_1e86ac00_581533.png "屏幕快照 2019-03-06 09.27.47.png")
 ![系统管理员](https://images.gitee.com/uploads/images/2019/0221/213934_b2d1584c_581533.png "屏幕快照 2019-02-21 21.26.49.png")
-5. 备注：由于 Restful API 功能暂未开发，所以这两部分只是静态界面
+5. 备注：由于 Restful API 功能暂未开发，所以这部分只是静态界面
 
 #### License
 Copyright 2019 Yang Wang
