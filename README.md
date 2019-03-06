@@ -53,7 +53,7 @@ B. Auth Service：提供连接用户的认证，订阅/发布的访问控制，�
 C. Session Service：管理连接到服务的 Session；<br>
 D. Verticle Service：管理各类 Verticle 和 Service，Verticle 是各 Listener 的具体实现，为各类客户端提供连接访问；<br>
 E. Metrics Service：针对 MQTT 协议的包/消息数/消息有效载荷字节数，以及 Session 运行信息的收集和统计。<br>
-备注：由于 MQTT over WebSocket 暂时没有实现，所以上图中这部分用虚线标识。
+备注：由于 Restful API 暂时没有实现，所以上图中这部分用虚线标识。
 
 3. 集群架构
 
