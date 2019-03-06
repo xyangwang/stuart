@@ -12,16 +12,17 @@ Stuart是一个基于 [Eclipse Vert.x](https://vertx.io) 和 [Apache Ignite](htt
 8. 支持基于用户名/密码的连接认证管理
 9. 支持基于用户名、IP地址和主题的访问控制列表
 10. 支持 Web 管理界面
+11. 支持 MQTT over WebSocket
 
 #### 安装教程
 1. 运行环境<br>
    JDK：Oracle JDK 8 或 OpenJDK 8<br>
    操作系统：Linux、Mac OS X(10.6以上)、Windows(XP以上)、Windows Server(2008以上)<br>
-2. 下载 release 版本，使用如下命令直接运行：`java -jar stuart-0.0.11-alpha-fat.jar`<br>
-   运行后会在 stuart-0.0.11-alpha-fat.jar 文件的同级目录下创建 storage 和 log 两个目录，在未通过 --cfg 指定配置文件时，Stuart 将使用 jar 包中自带的 cfg.properties 进行启动<br>
-   如果想查看启动命令的具体参数，可以使用如下命令：`java -jar stuart-0.0.11-alpha-fat.jar -h`<br>
-3. 通过 maven 编译，使用 `git clone https://gitee.com/x87/stuart.git` 或 `git clone https://github.com/xyangwang/stuart.git` 命令，或者在 Stuart 项目页面直接下载源码，使用自己熟悉的 IDE 导入工程进行二次开发，使用 `mvn install` 命令编译打包
-4. 成功启动后，就可以使用 `mosquitto_sub` 和 `mosquitto_pub` 命令或者其他 client library 进行开发测试
+2. 下载 release 版本，使用如下命令直接运行：`java -jar stuart-0.0.12-fat.jar`<br>
+   运行后会在 stuart-0.0.12-fat.jar 文件的同级目录下创建 storage 和 log 两个目录，在未通过 --cfg 指定配置文件时，Stuart 将使用 jar 包中自带的 cfg.properties 进行启动<br>
+   如果想查看启动命令的具体参数，可以使用如下命令：`java -jar stuart-0.0.12-fat.jar -h`<br>
+3. 通过 maven 编译，使用 `git clone https://gitee.com/x87/stuart.git` 或 `git clone https://github.com/xyangwang/stuart.git` 命令，或者在 Stuart 项目页面直接下载源码，使用自己熟悉的 IDE 导入工程进行二次开发，并使用 `mvn install` 命令编译打包。由于新增的 MQTT over WebSocket 功能修改了依赖包 `vertx-mqtt` 中的代码，如果需要自己编译，请同时到 `https://gitee.com/x87/vertx-mqtt.git` 或 `https://github.com/xyangwang/vertx-mqtt.git` 下载修改的依赖包，并 checkout `3.6` 分支代码
+4. 成功启动后，就可以使用 `mosquitto_sub` 和 `mosquitto_pub` 命令或者其他 Client Library 进行开发测试
 
 #### 系统架构
 1. 系统存储
@@ -44,7 +45,7 @@ B. 对于持久化 Session， 则使用 [Apache Ignite](https://ignite.apache.or
 
 2. 节点架构
 
-<img src="https://images.gitee.com/uploads/images/2019/0227/151442_7865d85a_581533.png" />
+<img src="https://images.gitee.com/uploads/images/2019/0306/094542_5482931c_581533.png" />
 
 系统主要分成五大服务模块：<br>
 A. Cache Service：为其他模块提供持久化服务；<br>
@@ -92,14 +93,14 @@ instance.log.level=info
 mqtt.port=1883
 # SSL MQTT 端口
 mqtt.ssl-port=8883
-# MQTT Over WebSocket 端口
+# MQTT over WebSocket 端口
 websocket.port=8080
-# MQTT Over WebSocket URL Path
+# MQTT over WebSocket path
 websocket.path=/mqtt
-# MQTT Over SSL WebSocket 端口
+# MQTT over SSL WebSocket 端口
 websocket.ssl-port=8083
-# MQTT Over SSL WebSocket URL Path
-websocket.ssl-path=/mqttssl
+# MQTT over SSL WebSocket path
+websocket.ssl-path=/mqtt
 # Web 端口
 http.port=18083
 
@@ -257,12 +258,11 @@ zookeeper.reconnect.enable=true
 #### Roadmap
 1. 针对 transient session 的 Off-Heap 优化
 2. Restful API
-3. MQTT Over WebSocket
-4. Unit test
-5. Benchmark
-6. Remove JQuery :cry: 
-7. Remember me
-8. ...
+3. Unit test
+4. Benchmark
+5. Remove JQuery :cry: 
+6. Remember me
+7. ...
 
 #### Web 管理界面
 1. 在成功启动后，可以使用 Stuart 提供的 Web 管理界面对服务器进行监控和管理
@@ -278,8 +278,9 @@ zookeeper.reconnect.enable=true
 ![连接用户](https://images.gitee.com/uploads/images/2019/0221/213754_5251e8f4_581533.png "屏幕快照 2019-02-21 21.26.34.png")
 ![访问控制](https://images.gitee.com/uploads/images/2019/0221/213837_d658b814_581533.png "屏幕快照 2019-02-21 21.26.39.png")
 ![监听器](https://images.gitee.com/uploads/images/2019/0221/213903_5ca05ccb_581533.png "屏幕快照 2019-02-21 21.26.44.png")
+![WebSocket](https://images.gitee.com/uploads/images/2019/0306/093713_1e86ac00_581533.png "屏幕快照 2019-03-06 09.27.47.png")
 ![系统管理员](https://images.gitee.com/uploads/images/2019/0221/213934_b2d1584c_581533.png "屏幕快照 2019-02-21 21.26.49.png")
-5. 备注：由于 MQTT Over WebSocket 和 Restful API 功能暂未开发，所以这两部分只是静态界面
+5. 备注：由于 Restful API 功能暂未开发，所以这两部分只是静态界面
 
 #### License
 Copyright 2019 Yang Wang
