@@ -33,8 +33,6 @@ public class BoundedIgniteMapUnsafe<K, V> implements Serializable {
 
     private final int capacity;
 
-    private volatile int size;
-
     public BoundedIgniteMapUnsafe(IgniteCache<K, V> cache, IgniteSet<K> set, int capacity) {
         this.cache = cache;
         this.set = set;
@@ -49,8 +47,6 @@ public class BoundedIgniteMapUnsafe<K, V> implements Serializable {
 
         // remove not existed keys
         this.set.removeAll(removes);
-        // initialize cache size
-        this.size = this.set.size();
     }
 
     public IgniteSet<K> getSet() {
@@ -69,16 +65,11 @@ public class BoundedIgniteMapUnsafe<K, V> implements Serializable {
             return true;
         }
 
-        if (capacity > 0 && size < capacity) {
+        if (capacity > 0 && set.size() < capacity) {
             // add key into set
             set.add(key);
             // put new value
             cache.put(key, value);
-
-            // get size
-            int s = size;
-            // size + 1
-            size = s + 1;
 
             // return true
             return true;
@@ -97,13 +88,7 @@ public class BoundedIgniteMapUnsafe<K, V> implements Serializable {
         // remove key from set
         set.remove(key);
 
-        if (result != null) {
-            // get size
-            int s = size;
-            // size - 1
-            size = s - 1;
-        }
-
+        // return result
         return result;
     }
 
@@ -116,11 +101,11 @@ public class BoundedIgniteMapUnsafe<K, V> implements Serializable {
     }
 
     public int size() {
-        return size;
+        return set.size();
     }
 
     public boolean isFull() {
-        return capacity > 0 && size >= capacity;
+        return capacity > 0 && set.size() >= capacity;
     }
 
 }
